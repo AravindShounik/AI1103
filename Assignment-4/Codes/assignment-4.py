@@ -22,4 +22,4 @@ for i in range(sample_space):
     if count==2:
         new+=1
 pr=float(new/sample_space)
-print(pr)
+print("The probability that there are 5 black balls using stimulations is " +str(pr))
