@@ -132,21 +132,69 @@ https://github.com/AravindShounik/AI1103/blob/main/Assignment-5/assignment-5.tex
 Consider a single server queuing model with Poisson arrivals ($\lambda = 4/hour$) and exponential service ($\mu = 4/hour$). The number in the system is restricted to a maximum of 10. The probability that a person who comes leaves without joining the queue is 
 \section*{Solution}
 Let $P_{n}$ represent the probability that there are n people in the queue\\
-The queue is in the notation $(M/M/1):(10/FCFS)$ in Kendall's notation.\\
+The queue is in the notation $(M/M/1):(10/FIFO)$ in Kendall's notation.\\
+Here, \textbf{M} stands for a Markovian or exponential distribution property of the model where the first M is for arrival and second M is for departure and the \textbf{1} stands for the number of servers in the model and \textbf{10} indicates the number of places in the queue and \textbf{FIFO} represents that the server obeys First in First out service at the server.\\
+
+Consider the time interval (t,t+h), where h $\rightarrow$ 0
+\begin{align}
+    \pr{\text{1 arrival}} &= \lambda h\\
+    \pr{\text{1 service}} &= \mu h\\
+    \pr{\text{no arrival}} &= 1-\lambda h\\
+    \pr{\text{no service}} &= 1- \mu h \\
+\end{align}
 Here, we can say that 
+\begin{multline}
+    P_n(t+h)=P_{n-1}(t)\times\pr{\text{1 arrival}}\times \pr{\text{no service}}\\ +P_{n+1}(t)\times\pr{\text{no arrival}}\times\pr{\text{1 service}} \\+ P_n(t)\times \pr{\text{no arrival}}\times\pr{\text{no service}}\\ + P_n(t) \times \pr{\text{1 arrival}} \times\pr{\text{1 service}} \label{eq1}
+\end{multline}
+\begin{multline}
+    P_n(t+h)=P_{n-1}(t)(\lambda h)(1-\mu h)\\+P_{n+1}(t)(1-\lambda h)(\mu h) \\+P_n(t)(1-\lambda h)(1-\mu h)\\+P_n(t)(\lambda h)(\mu h)
+\end{multline}
+Here, we can neglect higher order terms of $h$
+\begin{multline}
+    \implies P_n(t+h)=P_{n-1}(t)(\lambda h)+P_{n+1}(t)(\mu h)\\+P_n(t)(1-\mu h - \lambda h) \label{eq2}
+\end{multline}
+\begin{multline}
+    \implies \frac{P_n(t+h)-P_n(t)}{h}=\lambda P_{n-1}(t)+\mu P_{n+1}(t)\\- P_n(t)(\lambda + \mu ) \label{eq3}
+\end{multline}
+At steady state, $P_n(t+h)=P_n(t)$
 \begin{align}
-    P_{n+1}&= \rho  P_{n}\\
-    \rho&=\frac{\lambda}{\mu}
+     \implies (\lambda + \mu)P_n = \lambda P_{n-1}+\mu P_{n+1} \label{eq4}
 \end{align}
-where, $\rho$ is the traffic intensity. which implies
+\textbf{Claim:}\\
+The $P_n$ follows the pattern $P_n = \frac{\lambda}{\mu}P_{n-1}$\\
+We will prove this theorem by induction.
+Checking the condition for $n=1$\\
+Now, substituting $n=0$ in \eqref{eq1}
+\begin{multline}
+    \implies P_0(t+h)=P_{1}(\mu h)(1-\lambda h) \\+ P_0(1-\lambda h)
+\end{multline}
 \begin{align}
-    P_{n}=\rho^n P_{0}
+    \implies \frac{P_0(t+h)-P_0(t)}{h}=P_1(\mu)-P_0(\lambda)
 \end{align}
-Here, given $\lambda =4/hour$ and $\mu = 4/hour$. i.e, traffic intensity is given by
+In steady state, $P_0(t+h)=P_0(t)$
 \begin{align}
-    \rho=\frac{\lambda}{\mu}=\frac{4}{4}=1
+    P_1 \mu &=P_0 \lambda\\
+    P_1&= \frac{\lambda}{\mu} P_0
 \end{align}
-Here, the maximum number of people that can stand in the line is 10. So, we can say that
+So, it is proved for $n=1$.\\
+\textit{Inductive step:}\\
+Consider it is true for all integers less than $n+1$.
+Consider the equation \eqref{eq4}
+\begin{align}
+    \implies (\lambda + \mu)P_n&=\lambda P_{n-1} + \mu P_{n+1}\\
+    \implies (\lambda + \mu)P_n&= \mu P_n + \mu P_{n+1}\\
+    \implies \lambda P_n &= \mu P_{n+1}\\
+    \implies P_{n+1}&=\frac{\lambda}{\mu}P_n
+\end{align}
+We can see that if it is true for $n$ then it is true for $n+1$. So, by mathematical induction we can say that $P_n=\frac{\lambda}{\mu}P_{n-1}$ for all $n$ \\
+Here, we assume $\frac{\lambda}{\mu}=\rho$ and name it as the utilisation factor.
+So, we can say that 
+\begin{align}
+    P_n &= \left(\frac{\lambda}{\mu}\right)^n P_0\\
+    P_n &= \rho^n P_0
+\end{align}
+Here, the maximum number of people that can stand in the line is 10.\\
+The sum of all probabilities is 1. So, we can say that
 \begin{align}
     \sum_{n=0}^{n=10}P_{n}=1\\
     P_{0}+P_{1}+P_{2}....+P_{10}=1\\
@@ -156,7 +204,34 @@ Here, the maximum number of people that can stand in the line is 10. So, we can 
     P_{0}(11)=1\\
     P_{0}=\frac{1}{11}
 \end{align}
-Here, the person doesn't stand in queue if he comes after the 10 people i.e, if he is the 11th person
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 10\\
+        \hline
+        $P_n$ & $\frac{1}{11}$& $\frac{1}{11}$ & $\frac{1}{11}$& $\frac{1}{11}$ & $\frac{1}{11}$& $\frac{1}{11}$ & $\frac{1}{11}$&  $\frac{1}{11}$\\
+        \hline
+    \end{tabular}
+    \label{tab:my_label}
+\end{table}
+Here, the person doesn't stand in queue if he comes after the 10 people i.e, if he is the 11th person\\
+
+\begin{tikzpicture}
+\draw[step=1cm,black,very thin] (0,0) grid (6,1)  node[anchor=north west] {};
+\node[draw] at (0.5,0.5) {1};
+\node[draw] at (1.5,0.5) {2};
+\node[draw] at (5.5,0.5) {11};
+\node[draw] at (2.2,-1.5) {People will join in these 10 places};
+\draw[red,thick,solid] (0,0) -- (0,-1) -- (5,-1) -- (5,0);
+\node (A) at (5.5,0.0) {};
+\node (B) at (5.5,-3.0) {};
+\draw[->, to path={-| (\tikztotarget)}]
+  (A) edge (B) ;
+\node[draw] at (2.5,-3.5) {If person gets this place, he leaves the queue};
+\end{tikzpicture} \\
+When a person comes, the maximum number of people including himself is 11. So, the probability that there are 11 people in the server when he comes is same as the person leaving without joining the queue.
+So, the probability that the person comes when the line is full (or) He is the 11th person is
 \begin{align}
     P_{11}&=\rho^{11} P_{0}\\
     P_{11}&=1^{11} P_{0}\\
