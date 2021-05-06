@@ -193,12 +193,16 @@ So, we can say that
     P_n &= \left(\frac{\lambda}{\mu}\right)^n P_0\\
     P_n &= \rho^n P_0
 \end{align}
+Here, Utilisation Factor $\rho$ in the question is
+\begin{align}
+    \rho&=\frac{\lambda}{\mu}=\frac{4}{4}=1
+\end{align}
 Here, the maximum number of people that can stand in the line is 10.\\
 The sum of all probabilities is 1. So, we can say that
 \begin{align}
     \sum_{n=0}^{n=10}P_{n}=1\\
     P_{0}+P_{1}+P_{2}....+P_{10}=1\\
-    P_{0}+\rho P_{0}+\rho^2P_{0}...+\rho^10P_{0}=1\\
+    P_{0}+\rho P_{0}+\rho^2P_{0}...+\rho^{10}P_{0}=1\\
     P_{0}(1+\rho+\rho^2..+\rho^{10})=1\\
     P_{0}(1+1+..1)=1\\
     P_{0}(11)=1\\
@@ -216,22 +220,25 @@ The sum of all probabilities is 1. So, we can say that
     \label{tab:my_label}
 \end{table}
 Here, the person doesn't stand in queue if he comes after the 10 people i.e, if he is the 11th person\\
-
-\begin{tikzpicture}
-\draw[step=1cm,black,very thin] (0,0) grid (6,1)  node[anchor=north west] {};
-\node[draw] at (0.5,0.5) {1};
-\node[draw] at (1.5,0.5) {2};
-\node[draw] at (5.5,0.5) {11};
-\node[draw] at (2.2,-1.5) {People will join in these 10 places};
-\draw[red,thick,solid] (0,0) -- (0,-1) -- (5,-1) -- (5,0);
-\node (A) at (5.5,0.0) {};
-\node (B) at (5.5,-3.0) {};
-\draw[->, to path={-| (\tikztotarget)}]
-  (A) edge (B) ;
-\node[draw] at (2.5,-3.5) {If person gets this place, he leaves the queue};
-\end{tikzpicture} \\
-When a person comes, the maximum number of people including himself is 11. So, the probability that there are 11 people in the server when he comes is same as the person leaving without joining the queue.
-So, the probability that the person comes when the line is full (or) He is the 11th person is
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \draw[step=1cm,black,very thin] (0,0) grid (6,1)  node[anchor=north west] {};
+        \node[draw] at (0.5,0.5) {1};
+        \node[draw] at (1.5,0.5) {2};
+        \node[draw] at (5.5,0.5) {11};
+        \node[draw] at (2.2,-1.5) {People will join in these 10 places};
+        \draw[red,thick,solid] (0,0) -- (0,-1) -- (5,-1) -- (5,0);
+        \node (A) at (5.5,0.0) {};
+        \node (B) at (5.5,-2.25) {};
+        \draw[->, to path={-| (\tikztotarget)}]
+          (A) edge (B) ;
+        \node[draw] at (2.5,-2.5) {If person gets this place, he leaves the queue};
+        \end{tikzpicture}
+    \caption{Queue}
+    \label{fig:my_label}
+\end{figure}
+When a person comes, if $n=11$, then the person leaves without joining the queue.\\ So, $P_{11}$ is the probability of people leaving without joining the line.
 \begin{align}
     P_{11}&=\rho^{11} P_{0}\\
     P_{11}&=1^{11} P_{0}\\
