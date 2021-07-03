@@ -12,6 +12,7 @@ def check(arr):
     return False
 arr=[-1,-1,-1,-1,-1]
 num=0.0
+
 for i in range(sample_space):
     for j in range(5):
         arr[j]=rd.randint(1,10)
